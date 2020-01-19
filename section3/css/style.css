@@ -1,4 +1,5 @@
 @import url(sanitize.css);
+@import url('https://fonts.googleapis.com/css?family=Sriracha&display=swap');
 
 body {
     background-color: #f0f0f0;
@@ -8,7 +9,8 @@ body {
 }
 
 .container {
-    width: 800px;
+    /* max-widthは最大の幅を指定。それより小さい場合(スマホなど)は、それに合わせて表示される*/
+    max-width: 800px;
     margin: 0 auto;
     box-shadow: 0 0 10px rgba(0, 0, 0, .3);
 }
@@ -24,6 +26,7 @@ header h1 {
     font-size: 24px;
     font-weight: normal;
     text-align: center;
+    font-family: 'Sriracha', cursive;
 }
 
 .description {
@@ -33,6 +36,40 @@ header h1 {
 .description img {
     float: left;
     margin: 0 10px 10px 0;
+/* ターゲットとするプロパティを指定する */
+    transition-property: opacity;
+    transition-duration: 1s; /* 1秒かける */
+    transition-timing-function: ease; /* アニメーションの最初と最後の速度が少し遅くなる */
+    transition-delay: 0s;
+}
+
+.description a[href]:after {
+    content: attr(href);
+    margin-left: 1px ;
+    display: block;    
+    border: solid 1px #d3d2d2;    
+    color: #666;    
+    text-decoration: none;    
+    position: absolute;    
+    top: 20px;    
+    left: 10px;    
+    padding: 5px;    
+    visibility: hidden;    
+    width: 150px;
+    z-index: 10; 
+}
+
+.description a{ text-decoration:none;color: #000 ;position: relative;}
+ 
+.description a:hover,
+.description a:hover:after{ 
+  visibility: visible; 
+  z-index: 100; 
+  }
+
+/* :hoverは、マウスカーソルを上に重ねたときをターゲットする。擬似要素 */
+.description img:hover {
+    opacity: .5;
 }
 
 .information h1 {
@@ -86,11 +123,36 @@ header h1 {
     clear: both;
 }
 
+a {
+    color: #666;
+}
 
+footer {
+text-align: center;
+font-size: 70%;
+padding: 5px;
+}
 
+@media only screen and (max-width: 600px) {
+    .description img {
+        float: none;
+        margin: 0 auto;
+        display: block;
+    }
+    header {
+        padding: 5px;
+    }
 
+    header h1 {
+        font-size: 12px;
+    }
 
-
+    .songs li {
+        float: none;
+        /* inheritは、親要素の幅に合わせるプロパティ*/
+        width: inherit;
+    }
+}
 
 
 
