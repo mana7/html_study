@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!--タイマースタート、ストップのみ。リスタートはできないので要勉強-->
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIMER</title>
+
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"
+        integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!--containerにすることで、左右に余白ができる-->
+    <div class="container">
+        <!--classではなくid属性を使用しているのは、jsと連携するため-->
+        <p id="timer">00:00:00</p>
+
+        <div>
+            <!--class lgはlarge、primaryは青色を指定している。-->
+            <button id="start_stop" class="btn btn-lg btn-primary">START</button>
+        </div>
+    </div>
+
+    <script>
+        ///グローバル変数として定義する。
+        ///すると、どの箇所でも使用でき、値の内容は共有される
+        var start;
+        var timer_id;
+
+        document.getElementById('start_stop').addEventListener('click', function () {
+            if (this.innerHTML === 'START') {
+            //グローバル変数ではなく、このタイミングで変数定義すると、他の箇所で使用不可。
+            //var start = new Date();
+            start = new Date();
+
+            // setInterval(関数,処理間隔)
+            // 一定間隔で関数を実行する。goTimerは後の方で処理内容を定義。
+            // 処理間隔の単位はミリ秒。10であれば、10ミリ秒。
+            // ちなみに、[setTimeout]は、一定時間後に特定の処理を行う(1度だけ)
+
+            //setIntervalは、idを返却するため、変数定義しておく
+            timer_id = setInterval(goTimer, 10);
+
+            // STOPボタンに変化させる
+            this.innerHTML = 'STOP'
+            this.classList.remove('btn-primary'); //青を削除
+            this.classList.add('btn-danger'); //赤へ変化
+            } else {
+                /// timer_idを使用して、対象のタイマーを指定する
+                clearInterval(timer_id); //一定時間の処理実行が止まる
+                /// STARTボタンに戻す
+                this.innerHTML = 'START';
+                this.classList.remove('btn-danger'); //赤を削除
+                this.classList.add('btn-primary'); //青へ変化
+            }
+
+        });
+
+        var addZero = function (value) {
+            if (value < 10) {
+                value = '0' + value;
+            }
+            return value;
+        }
+
+        var goTimer = function () {
+            var now = new Date();
+
+            var milli = now.getTime() - start.getTime();
+            ///floor関数は小数点以下の値を切り捨てた結果を返す
+            var seconds = Math.floor(milli / 1000);
+            var minutes = Math.floor(seconds / 60);
+            var hours = Math.floor(minutes / 60);
+
+            // secondsから、秒単位に戻した[minutes * 60]を引くことで、余りの秒数だけにする
+            seconds = seconds - minutes * 60;
+            minutes = minutes - hours * 60;
+
+            hours = addZero(hours);
+            minutes = addZero(minutes);
+            seconds = addZero(seconds);
+
+            document.getElementById('timer').innerHTML = hours + ':' + minutes + ':' + seconds;
+        }
+
+    </script>
+
+</body>
+
+</html>

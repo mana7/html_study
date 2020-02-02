@@ -1,0 +1,20 @@
+.container {
+    text-align: center;
+    margin:30px auto;
+}
+
+/* id属性を使った場合は#で指定する */
+#timer {
+    font-size: 36px;
+    border: 1px solid #cccccc;
+    margin: 30px auto;
+    padding: 50px;
+    background-color: #000;
+    color: #ffffff;
+    border-radius: 10px; /*角に丸み*/
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 5);
+}
+
+.btn {
+    width: 100%;
+}
