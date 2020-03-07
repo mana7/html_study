@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Sriracha&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+
+    <title>My Photos</title>
+</head>
+<body>
+    <header>
+        <h1>My Photos</h1>
+    </header>
+
+    <div class="container">
+        <!--JSで使うため、id属性を利用する-->
+        <div id="img_unit"> 
+            <!-- v-forは、vueでfor構文を使う意味。のちに出てくるPhotosの内容を一個ずつ取り出してPhotoに入れるのが書いてある。これにより、回数指定などは必要なし-->
+            <div class="photo" v-for="Photo in Photos"> 
+                <img :src="Photo.path"> <!-- 属性の中身書き換えたい場合は、手前に : を置く-->
+                <!-- {{}}でキーワードを書いておくことで、vueを用いて簡単に書き換えることができる-->
+                <div class="inner"><p>{{ Photo.caption}}<span>{{ Photo.name }}</span></p></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="jquery/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#img_unit', ///elはelementの略
+            data: {
+                Photos: [] ///まだajax通信で画像を取得していないので空を指定している
+            },
+            ///createdは、Vueのオブジェクトが作られたときに行われる処理
+            created: function () {
+                var self = this;
+                $.getJSON('https://h2o-space.com/htmlbook/images.php',function (data) {
+                    self.Photos = data; ///引数2個目が、コールバック関数(通信完了したら、受信内容がdataに渡される
+                });
+            }
+        });
+
+    </script>
+
+</body>
+</html>

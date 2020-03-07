@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Sriracha&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+
+    <title>My Photos</title>
+</head>
+<body>
+    <header>
+        <h1>My Photos</h1>
+    </header>
+
+    <div class="container">
+        <!--JSで使うため、id属性を利用する-->
+        <div id="img_unit"> 
+        </div>
+    </div>
+
+    <script src="jquery/jquery.min.js"></script>
+    <script>
+        ///jQeryの形式は　$ + ('セレクター') + メソッド + ("パラメーター");
+        ///例えば
+        　　///$('#img_unit').html('ここに、画像リストが表示されます');
+        　　///$('#img_unit').css('margin-top', '100px');
+        ///jQeryは、同じセレクターを指定する場合にメソッドチェーンが可能で、下記の書き方も可能である。
+        　　/// $('#img_unit').html('ここに、画像リストが表示されます').css('margin-top', '100px');
+
+        $.getJSON('https://h2o-space.com/htmlbook/images.php', function(data) {
+            for (var i=0; i<data.length; i++) {
+                $('<div class="photo"></div>')
+                    .append('<img src="' + data[i].path + '">')
+                    .append('<div class="inner"><p>' + data[i].caption + '<span>' + data[i].name + '</span></p></div>')
+                    .appendTo('#img_unit'); ///メソッドチェーンのため、最後だけ;つける
+            }
+        });
+    </script>
+
+</body>
+</html>
