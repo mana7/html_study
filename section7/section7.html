@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Sriracha&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+
+    <title>My Photos</title>
+</head>
+<body>
+    <header>
+        <h1>My Photos</h1>
+    </header>
+
+    <div class="container">
+        <!--JSで使うため、id属性を利用する-->
+        <div id="img_unit"> 
+        </div>
+
+        <script>
+            ///Ajaxとは「Asynchronous JavaScript + XML」の略
+            ///JavaScriptとXMLを使って"非同期"にサーバとの間の通信を行うこと。
+            ///一部の情報をサーバーに送信して、それを受け取り反映させる仕組みがAjax
+
+            ///ajaxは複数の機能から成り立つ
+            ///XMLHttpRequestは、クライアントとサーバーの間でデータを伝送するための機能をクライアント側で提供する API 
+            ///XMLと入っているが、responseにjsonも指定可能(API:DOM)。
+
+            var ajax = new XMLHttpRequest();
+            ajax.open('GET', 'https://h2o-space.com/htmlbook/images.php');
+            ajax.responseType = 'json'
+            ajax.send(null);
+
+            ajax.onreadystatechange = function() {
+                if (ajax.readyState === XMLHttpRequest.DONE && ajax.status === 200) {
+                    for (var i=0; i<this.response.length; i++) {
+                        var data = this.response[i];
+
+                        var img = document.createElement('img');
+                        img.setAttribute('src', data.path);
+
+                        var caption = document.createElement('div');
+                        caption.className = 'inner';
+                        caption.innerHTML = '<p>' + data.caption + '<span>' + data.name + '</span></p>'; 
+
+                        var div = document.createElement('div');
+                        div.className = 'photo';
+                        div.appendChild(img);
+                        div.appendChild(caption);
+
+                        document.getElementById('img_unit').appendChild(div);
+
+                    }
+                }
+            };
+            ///readyState 数字で指定することも可能
+            ///0：UNSENT インスタンスができた
+            ///1：OPENED openメソッドを利用した
+            ///2：HEADERS_RECEIVED ヘッダーが受信できた
+            ///3：LOADING データを受信中である
+            ///4：DONE 通信が終了した
+            ///4まで行っていることを確認するのが大事
+
+        </script>
+    </div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Sriracha&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+
+    <title>My Photos</title>
+</head>
+<body>
+    <header>
+        <h1>My Photos</h1>
+    </header>
+
+    <div class="container">
+        <!--JSで使うため、id属性を利用する-->
+        <div id="img_unit"> 
+        </div>
+
+        <script>
+        var images = [
+            {
+                "path": "img/img01.jpg",
+                "name": "by name01",
+                "caption": "コメント1"
+            },
+            {
+                "path": "img/img02.jpg",
+                "name": "by name02",
+                "caption": "コメント2"
+            },
+            {
+                "path": "img/img03.jpg",
+                "name": "by name03",
+                "caption": "コメント3"
+            }
+        ];
+        
+        var img;
+        var caption;
+        var div;
+        
+        ///images.lengthは、imagesの長さ=配列の個数を指す=3となる。
+        ///配列は0,1,2のため、下記式で適切に繰り返しが可能
+        for (var i = 0; i<images.length; i++) {
+
+        img = document.createElement('img');
+        ///要素化したimgタグに、src属性を付与し、配列のpathを指定する
+        ///つまり　→　<img src="img/img01.jpg">
+        img.setAttribute('src', images[i].path);
+
+        caption = document.createElement('div');
+        caption.className = 'inner';
+        caption.innerHTML = '<p>' + images[i].caption + '<span>' + images[i].name + '</span></p>';
+
+        div = document.createElement('div');
+        div.className = 'photo';
+        div.appendChild(img);
+        div.appendChild(caption);
+
+        ///img_unitに、子供の要素imgを作る。
+        ///innerHTMLは、画像のような要素オブジェクトに対して利用できないため、下記を利用する
+        document.getElementById('img_unit').appendChild(div);
+        }
+
+        </script>
+    </div>
+
+
+
+</body>
+</html>
