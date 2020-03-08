@@ -32,6 +32,8 @@
             ajax.responseType = 'json'
             ajax.send(null);
 
+            ///onreadystatechange：readyState 属性が変化するたびに呼び出されるイベントハンドラー
+            ///このイベントが起きたときに、function以降の関数が呼び出される
             ajax.onreadystatechange = function() {
                 if (ajax.readyState === XMLHttpRequest.DONE && ajax.status === 200) {
                     for (var i=0; i<this.response.length; i++) {
